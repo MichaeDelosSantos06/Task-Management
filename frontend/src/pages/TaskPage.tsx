@@ -8,18 +8,17 @@ import EditModal from "../components/EditModal";
 import type { Task } from "../types/task";
 import Input from "../components/ui/Input";
 
-// Page component that renders the task dashboard.
-// It uses hooks to fetch data, perform mutations, and manage local UI state.
 const TaskPage = () => {
-  // Load task data and the current status flags.
   const { task, loading, error, refetch } = useRetrieveTasks();
-  // Provide actions for create/update/delete without exposing service details.
+
   const { addTask, updateTask, deleteTask } = useTaskActions();
-  // Control whether the add-task modal is visible.
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   // If a task is being edited, store its values here.
   const [editingTask, setEditingTask] = useState<null | Task>(null);
 
+  // Filter state
   type Filter = "All" | "Active" | "Inactive" | "Completed";
 
   // Search term entered by the user.
@@ -27,8 +26,7 @@ const TaskPage = () => {
   // Selected filter for the list.
   const [filter, setFilter] = useState<Filter>("All");
 
-  // Compute visible tasks based on search text and the current filter.
-  // This keeps the UI reactive without mutating the original task array.
+  // UI filtering logic
   const filteredTasks = (() => {
     const term = searchTerm.trim().toLowerCase();
     return task.filter((item) => {
@@ -198,7 +196,6 @@ const TaskPage = () => {
       )}
 
       {/* Modal trigger */}
-      {/* Add-task modal appears when the user clicks the Add task button. */}
       {isAddModalOpen && (
         <AddModal
           onClose={() => setIsAddModalOpen(false)}
@@ -207,7 +204,6 @@ const TaskPage = () => {
         />
       )}
 
-      {/* Edit-task modal appears when a task is selected for editing. */}
       {editingTask && (
         <EditModal
           onClose={() => setEditingTask(null)}

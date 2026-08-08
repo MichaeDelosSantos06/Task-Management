@@ -25,6 +25,7 @@ const TaskController = {
 
   updateTask: asyncHandler(async (req: Request, res: Response) => {
     const taskId = Number(req.params.id);
+
     const { task, isActive, completedAt } = req.body;
 
     const updatedTask = await TaskService.updateTask(taskId, {

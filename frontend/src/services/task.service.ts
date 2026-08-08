@@ -23,7 +23,7 @@ export const TaskService = {
     return response.data;
   },
   updateTask: async (id: number, data: UpdateTaskPayload) => {
-    const response = await api.put(`/task/update-task/${id}`, data);
+    const response = await api.patch(`/task/update-task/${id}`, data);
     return response.data;
   },
 

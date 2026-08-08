@@ -20,7 +20,7 @@ const EditModal = ({
   onSuccess,
   initialTask,
   taskId,
-  isActive = true,
+  isActive,
   onMutate,
 }: EditModalProps) => {
   const [draftIsActive, setDraftIsActive] = useState(isActive);
