@@ -20,20 +20,21 @@ const useRetrieveTasks = () => {
       const raw: any[] = result.data || result || [];
 
       // Map backend task records into the frontend Task shape.
-      // The backend may still return `status` as a string, so we derive
-      // `isActive` and `isCompleted` here for UI convenience.
+      // Status is derived from isActive and completedAt:
+      // - If isActive is false → "Inactive"
+      // - Else if completedAt exists → "Completed"
+      // - Else → "Active"
       const mapped: Task[] = raw.map((r) => ({
         id: r.id,
         task: r.task,
+        isActive: r.isActive,
+        completedAt: r.completedAt ? new Date(r.completedAt) : null,
         status:
-          r.status ??
-          (r.isCompleted
-            ? "Completed"
-            : r.isActive === false
-              ? "Inactive"
-              : "Active"),
-        isActive: r.isActive ?? r.status === "Active",
-        isCompleted: r.isCompleted ?? r.status === "Completed",
+          r.isActive === false
+            ? "Inactive"
+            : r.completedAt
+              ? "Completed"
+              : "Active",
       }));
 
       setTask(mapped);
@@ -45,6 +46,7 @@ const useRetrieveTasks = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getTasks();
   }, []);
 

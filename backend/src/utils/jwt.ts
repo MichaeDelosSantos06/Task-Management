@@ -5,8 +5,8 @@ import { env } from "../config/env.js";
 
 // Add line if needed (eg., ROLE  or isVerified)
 export interface TokenPayload extends JwtPayload {
-  userId: string;
-  email: string;
+  taskId: string;
+  // email: string;
 }
 
 export const generateAccessToken = (payload: TokenPayload): string => {
@@ -15,9 +15,7 @@ export const generateAccessToken = (payload: TokenPayload): string => {
   });
 };
 
-export const verifyAccessToken = (
-  token: string
-): TokenPayload | null => {
+export const verifyAccessToken = (token: string): TokenPayload | null => {
   try {
     return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
   } catch {

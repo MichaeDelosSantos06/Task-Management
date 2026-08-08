@@ -14,13 +14,9 @@ datasource db {
 }
 
 model Task {
-  id Int @id @default(autoincrement())
-  task String
-  status Status @default(Active)
+  id          Int     @id @default(autoincrement())
+  task        String
+  isActive    Boolean @default(true)
+  completedAt DateTime?
 }
 
-enum Status {
-  Active
-  Inactive
-  Completed
-}

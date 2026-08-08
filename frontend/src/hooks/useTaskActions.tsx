@@ -1,11 +1,11 @@
 import { TaskService } from "../services/task.service";
 import type { TaskPayload } from "../types/task";
 
-// Optional fields for task updates. `isCompleted` is used by the checkbox toggle,
+// Optional fields for task updates. `completedAt` is used by the checkbox toggle,
 // and `task` is used by the edit form.
 type UpdateTaskPayload = {
   task?: string;
-  isCompleted?: boolean;
+  completedAt?: Date | null;
   isActive?: boolean;
 };
 

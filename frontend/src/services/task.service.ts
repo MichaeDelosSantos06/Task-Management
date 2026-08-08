@@ -6,7 +6,7 @@ type TaskPayload = {
 
 type UpdateTaskPayload = {
   task?: string;
-  isCompleted?: boolean;
+  completedAt?: Date | null;
   isActive?: boolean;
 };
 

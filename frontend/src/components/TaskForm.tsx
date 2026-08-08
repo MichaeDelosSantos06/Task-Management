@@ -13,6 +13,7 @@ type TaskFormProps = {
   onCancel: () => void;
   initialTask?: string;
   taskId?: number;
+  isActive?: boolean;
   onMutate: (data: TaskPayload, taskId?: number) => Promise<void>;
 };
 
@@ -21,6 +22,7 @@ const TaskForm = ({
   onCancel,
   initialTask = "",
   taskId,
+  isActive,
   onMutate,
 }: TaskFormProps) => {
   const { register, handleSubmit, reset } = useForm<TaskFormValues>({
@@ -33,7 +35,7 @@ const TaskForm = ({
 
   const onSubmit = async (data: TaskFormValues) => {
     try {
-      await onMutate({ task: data.task }, taskId);
+      await onMutate({ task: data.task, isActive }, taskId);
       await onSuccess();
       reset();
     } catch (error) {

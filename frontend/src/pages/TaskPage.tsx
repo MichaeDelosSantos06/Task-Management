@@ -36,7 +36,7 @@ const TaskPage = () => {
       if (filter === "All") return true;
       if (filter === "Active") return item.isActive === true;
       if (filter === "Inactive") return item.isActive === false;
-      if (filter === "Completed") return item.isCompleted === true;
+      if (filter === "Completed") return !!item.completedAt;
       return true;
     });
   })();
@@ -65,12 +65,11 @@ const TaskPage = () => {
     }
   };
 
-  // Toggle completion and active status together, then persist both values.
+  // Toggle task completion: sets completedAt timestamp on backend
   const handleToggleCompleted = async (id: number, isCompleted: boolean) => {
     try {
       await updateTask(id, {
-        isCompleted,
-        isActive: !isCompleted,
+        completedAt: isCompleted ? new Date() : null,
       });
       await refetch();
     } catch (error) {
@@ -142,10 +141,10 @@ const TaskPage = () => {
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-1 items-center gap-3">
                   <label className="flex items-center gap-3">
-                    {/* Checkbox toggles completion and persists to backend. */}
+                    {/* Checkbox toggles completion by setting completedAt timestamp */}
                     <input
                       type="checkbox"
-                      checked={!!item.isCompleted}
+                      checked={!!item.completedAt}
                       onChange={(e) =>
                         handleToggleCompleted(item.id, e.target.checked)
                       }
@@ -153,7 +152,7 @@ const TaskPage = () => {
                     />
                     <span
                       className={`text-sm font-medium ${
-                        item.isCompleted
+                        item.completedAt
                           ? "text-gray-500 line-through"
                           : "text-gray-900"
                       }`}
@@ -177,6 +176,7 @@ const TaskPage = () => {
                         id: item.id,
                         task: item.task,
                         status: item.status,
+                        isActive: item.isActive,
                       })
                     }
                   >
@@ -214,6 +214,7 @@ const TaskPage = () => {
           onSuccess={handleEditSuccess}
           initialTask={editingTask.task}
           taskId={editingTask.id}
+          isActive={editingTask.isActive}
           onMutate={async (data, id) => {
             if (typeof id === "number") return updateTask(id, data);
             return;

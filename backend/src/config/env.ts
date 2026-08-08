@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Add REQUIRED VARIABLES later if needed.
-const requiredEnvVars = ["DATABASE_URL"] as const;
+const requiredEnvVars = ["DATABASE_URL", "CLIENT_URL"] as const;
 
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
