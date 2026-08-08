@@ -17,6 +17,6 @@ model Task {
   id          Int     @id @default(autoincrement())
   task        String
   isActive    Boolean @default(true)
-  completedAt DateTime?
+  completedAt DateTime? 
 }
 
